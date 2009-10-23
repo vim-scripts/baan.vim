@@ -12,8 +12,9 @@ let b:did_indent = 1
 
 setlocal autoindent
 setlocal indentexpr=Get_Baan_Indent()
+" entries in indentkeys forces vim to reindent current line
 setlocal indentkeys&
-setlocal indentkeys+==~end,=else,=until,=default
+setlocal indentkeys+==~end,=else,=until,=default,=endcase
 
 " stop if function already defined
 if exists("*Get_Baan_Indent")
@@ -56,9 +57,15 @@ function Get_Baan_Indent()
 	" work :-(
 	" '\c^\s*\(end\)\(select\|if\|case\|....\)'
 	let line_indent = line_indent - &sw
+	if current_line =~ '\c^\s*endcase' 
+	    "we're two indents to the right; one for 'on case' and another for
+	    "'case'. thus we have to deduct twice
+	    let line_indent = line_indent - &sw
+	endif
     elseif current_line =~ '\c^\s*else'
 	\ || current_line =~ '^\s*}'
 	\ || current_line =~ '\c^\s*until'
+	\ || (current_line =~ '\c^\s*\(case.*\|default\):' && !(previous_line =~ '\c^\s*on case'))
 	let line_indent = line_indent - &sw
     endif
 
