@@ -38,10 +38,17 @@ function Get_Baan_Indent()
 	\ || previous_line =~ '\c^\s*function.*)\n*{'
 	\ || previous_line =~ '\c^\s*\(dllusage\|functionusage\)'
 	\ || previous_line =~ '\c^\s*default'
+	\ || previous_line =~ '\c^\s*\(declaration\|before\.program\|after\.form\.read\|on.error\|after\.program\):'
+	\ || previous_line =~ '\c^\s*\(after\.update\.db\.commit\|before\.display\.object\|before\.new\.object\|functions\):'
+	\ || previous_line =~ '\c^\s*on\.\(entry\|exit\):'
+	\ || previous_line =~ '\c^\s*\(init\|before\|after\)\.\(form\|group\):'
+	\ || previous_line =~ '\c^\s*\(before\|on\|after\)\.choice:'
+	\ || previous_line =~ '\c^\s*\(init\.field\|before\.field\|before\.input\|before\.display\|selection\.filter\|before\.zoom\|before\.checks\|domain\.error\|ref\.input\|ref\.display\|check\.input\|on\.input\|when\.field\.changes\|after\.zoom\|after\.input\|after\.display\|after\.field\):'
+	\ || previous_line =~ '\c^\s*\(read\.view\|before\.read\|after\.read\|before\.write\|before\.rewrite\|after\.write\|after\.skip\.write\|after\.skip\.rewrite\|before\.delete\|after\.delete\|after\.skip\.delete\)'
 	let line_indent = line_indent + &sw
     endif
 
-    " deduct indent for syntax that signifies end of a block sdfgjsdfjksdf
+    " deduct indent for syntax that signifies end of a block 
     let current_line = getline(v:lnum)
 
     if current_line =~ '\c^\s*end.*'
