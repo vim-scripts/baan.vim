@@ -2,7 +2,7 @@
 "Language:	    Baan 3GL/4GL
 "Author:	    Rajesh Kannan (rajesh dot kannan at infor dot com)
 "Created:	    Thu, 22 Oct 2009, 1600hrs IST
-"Last Modified:	    Fri, 23 Oct 2009
+"Last Modified:	    Fri, 26 Oct 2009
 "Last Modified By:  Rajesh Kannan
 
 if exists("b:did_indent")
@@ -52,7 +52,10 @@ function Get_Baan_Indent()
     " deduct indent for syntax that signifies end of a block 
     let current_line = getline(v:lnum)
 
-    if current_line =~ '\c^\s*end.*'
+    if current_line =~ '^\s*\(\#\)'
+	" #defines, #includes etc get zero indent
+	let line_indent = 0
+    elseif current_line =~ '\c^\s*end.*'
 	" ideally would like to specify the following but I cannot make it
 	" work :-(
 	" '\c^\s*\(end\)\(select\|if\|case\|....\)'
